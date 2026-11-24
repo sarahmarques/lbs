@@ -1,0 +1,39 @@
+name: 'Set dynamically below in a task'
+
+trigger:
+- deployment/prod
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: lbs-website-environments
+- group: lbs-website-global
+- group: lbs-website-prod
+
+## BUILD SOLUTION
+stages:
+- stage: Setup
+  displayName: 'Setup Deployment'
+  jobs:
+  - template: templates/name-deployment.yml
+    parameters:
+      major: $(MAJOR_VERSION)
+      minor: $(MINOR_VERSION)
+      patch: $(PATCH_VERSION)
+
+- template: templates/deploy-environment.yml
+  parameters:
+    devOpsEnvironment: $(ENVIRONMENT_PROD)
+    siteId: $(NETLIFY_SITE_ID)
+    
+- stage: CompleteDeployment
+  dependsOn: ['Setup', 'TestSite']
+  variables: 
+  - name: BuildVersion
+    value: $[ stageDependencies.Setup.NameDeployment.outputs['SetDeploymentName.BuildNumber'] ]
+  displayName: Complete Deployment
+  jobs:
+  - template: templates/tag-deployment.yml
+    parameters:
+      Version: $(BuildVersion)

@@ -1,0 +1,12 @@
+package-lock.json
+yarn.lock
+node_modules
+.next
+out
+/test-results
+/storybook-static
+!.storybook
+./customApps/*
+../customApps/*
+customApps/**
+customapps/**

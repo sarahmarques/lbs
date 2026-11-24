@@ -1,0 +1,27 @@
+parameters:
+- name: BaseUrl
+  type: string
+
+steps:
+  - task: NodeTool@0
+    displayName: 'Install Node.js'
+    inputs:
+      versionSpec: '16.x'
+
+  - script: |
+      npm install --force
+    displayName: 'npm install and build'
+
+  - script: |
+        npx cypress run --reporter junit --config baseUrl=${{ parameters.BaseUrl}} --reporter-options "mochaFile=test-results/integration-tests-[hash]-$(Build.BuildId).xml"
+    displayName: 'Run Cypress tests'
+    env:
+        TERM: xterm
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/*-tests-*.xml'
+      searchFolder: '$(Agent.BuildDirectory)'
+      failTaskOnFailedTests: true

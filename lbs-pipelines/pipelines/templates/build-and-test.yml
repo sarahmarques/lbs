@@ -1,0 +1,34 @@
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node'
+
+- script: |
+    npm install --force
+  displayName: 'Install NPM Dependencies'
+
+- script: |
+    npm run test
+  displayName: 'Run Unit Tests'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  displayName: 'Publish Unit Test Results'
+  inputs:
+    testResultsFiles: "**/*.trx"
+    mergeTestResults: true
+    testResultsFormat: VSTest
+    testRunTitle: 'JestUnitTests'
+    failTaskOnFailedTests: true
+
+- script: |
+    npm run test:coverage
+  displayName: 'Calculate Code Coverage'
+  
+- task: PublishCodeCoverageResults@1
+  displayName: Publish Code Coverage Results
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+    failIfCoverageEmpty: true

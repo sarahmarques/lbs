@@ -1,0 +1,16 @@
+export enum Templates {
+  content = "Content Page",
+  content2019Page = "Content 2019 Page",
+  eeLandingPage = "EE Landing Page",
+  newsDetail = "News Detail",
+  interactSSO = "Interact SSO",
+  publicationDetail = "Publication Detail",
+  storyPage = "Story Page",
+  facultyProfileDetail = "Faculty Profile Detail",
+  contributorProfileDetail = "Contributor Profile Detail",
+  bsrContentPage = "BSR Content Page",
+  studentProfileDetail = "Student Profile Detail",
+  eventsDetail = "Events Detail",
+  embagTemplate = "EMBAG Template",
+  programmeDetails = "Programme Details",
+}

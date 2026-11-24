@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": ["dom", "dom.iterable", "ES2021"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noImplicitAny": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["./components/*"],
+      "@utilities/*": ["./utils/*"],
+      "@customTypes/*": ["./types/*"]
+      // "@zepp/utils": ["./node_modules/zepp/packages/utils"],
+      // "@zepp/react": ["./node_modules/zepp/packages/react"]
+    },
+    "incremental": true
+  },
+  "exclude": ["node_modules", "cypress", "customApps"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/components",
+    "src/custom.d.ts"
+  ],
+  "types": ["node", "jest", "@testing-library/jest-dom"],
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    "compilerOptions": {
+      "target": "ES2021",
+      "module": "CommonJS"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+trigger:
+- deployment/uat
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: lbs-website-environments
+- group: lbs-website-global
+- group: lbs-website-uat
+
+stages:
+- stage: Setup
+  displayName: 'Setup Deployment'
+  jobs:
+  - template: templates/name-deployment.yml
+    parameters:
+      major: $(MAJOR_VERSION)
+      minor: $(MINOR_VERSION)
+      patch: $(PATCH_VERSION)
+      
+- template: templates/deploy-environment.yml
+  parameters:
+    devOpsEnvironment: $(ENVIRONMENT_UAT)
+    siteId: $(NETLIFY_SITE_ID)

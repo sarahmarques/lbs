@@ -1,0 +1,74 @@
+@mixin tag-style {
+  padding: 0.5rem 0.6rem 0.2rem;
+  color: $projectBlue;
+  border: 0.1rem solid $projectDarkBone;
+  display: inline-block;
+  font-size: 1rem;
+  text-decoration: none;
+  margin: 0 1rem 1rem 0;
+}
+
+.tag {
+  span {
+    @include tag-style;
+    font-weight: bold;
+  }
+
+  a {
+    @include tag-style;
+
+    &:hover,
+    &:focus,
+    &:active {
+      border: 0.1rem solid $projectBlue;
+      color: $projectWhite;
+      background: $projectBlue;
+    }
+  }
+}
+
+// sass-lint:disable class-name-format
+.CoveoSearchInterface {
+  .CoveoResult {
+    .tag {
+      a {
+        &:visited {
+          &:hover,
+          &:focus {
+            color: $projectWhite;
+          }
+        }
+      }
+    }
+  }
+}
+
+// COMPACT WEB
+@media #{$compact-web} {
+  .tag {
+  }
+}
+
+// TABLET PORTRAIT
+@media #{$tablet-portrait} {
+  .tag {
+  }
+}
+
+// MOBILE
+@media #{$mobile} {
+  .tag {
+  }
+}
+
+// MOBILE LANDSCAPE
+@media #{$mobile-landscape} {
+  .tag {
+  }
+}
+
+// MOBILE PORTRAIT
+@media #{$mobile-portrait} {
+  .tag {
+  }
+}

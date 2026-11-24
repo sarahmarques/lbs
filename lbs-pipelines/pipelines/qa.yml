@@ -1,0 +1,31 @@
+name: 'Set dynamically below in a task'
+
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: lbs-website-environments
+- group: lbs-website-global
+- group: lbs-website-qa
+- name:  patchVersion
+  value: $[counter(format('{0}.{1}', variables['MAJOR_VERSION'], variables['MINOR_VERSION']), 0)]
+
+## DEPLOY SOLUTION
+stages:
+- stage: Setup
+  displayName: 'Setup Deployment'
+  jobs:
+  - template: templates/version-deployment.yml
+    parameters:
+      major: $(MAJOR_VERSION)
+      minor: $(MINOR_VERSION)
+      patch: $(patchVersion)
+      isBeta: false
+
+- template: templates/deploy-environment.yml
+  parameters:
+    devOpsEnvironment: $(ENVIRONMENT_QA)
+    siteId: $(NETLIFY_SITE_ID)

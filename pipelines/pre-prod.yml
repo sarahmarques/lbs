@@ -1,0 +1,28 @@
+name: 'Set dynamically below in a task'
+
+trigger:
+- none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: lbs-website-environments
+- group: lbs-website-global
+- group: lbs-website-pp
+
+## DEPLOY SOLUTION
+stages:
+- stage: Setup
+  displayName: 'Setup Deployment'
+  jobs:
+  - template: templates/name-deployment.yml
+    parameters:
+      major: $(MAJOR_VERSION)
+      minor: $(MINOR_VERSION)
+      patch: $(PATCH_VERSION)
+
+- template: templates/deploy-environment.yml
+  parameters:
+    devOpsEnvironment: $(ENVIRONMENT_PP)
+    siteId: $(NETLIFY_SITE_ID)

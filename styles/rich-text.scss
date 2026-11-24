@@ -1,0 +1,356 @@
+@use "./variables.scss";
+
+// COMPONENT - Rich Text 1.0
+
+// DEFAULT CLASS - .rich-text
+
+// CLASS VARIANTS -
+
+// WIDE WEB
+
+$borderColour: variables.$blue-02;
+
+.rich-text,
+.text-placeholder {
+  .white-grey-split & {
+    margin-top: 5.6rem;
+  }
+
+  .wrapper {
+    h2 {
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+
+  ul,
+  li,
+  blockquote,
+  table {
+    p {
+      font-size: inherit;
+      line-height: inherit;
+      margin-bottom: inherit;
+    }
+  }
+
+  blockquote {
+    margin-left: 7rem;
+    font-size: 3rem;
+    font-family: $headingFontFamily;
+    font-weight: bold;
+
+    .sublayout-1 & {
+      margin-left: 0;
+    }
+
+    + sub {
+      @include line-height(24, 16);
+      margin-left: 7rem;
+      display: block;
+      font-size: 1.6rem;
+      margin-top: 2rem;
+
+      + sub {
+        @include line-height(20, 13);
+        margin-left: 7rem;
+        display: block;
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
+  &.border,
+  .border {
+    border: 0.1rem solid rgba($projectBlue, 0.25);
+    padding: 3.5rem 4rem 3rem;
+    margin-bottom: 4rem;
+
+    & > :last-child {
+      margin-bottom: 0;
+    }
+
+    div {
+      & > :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  a {
+    text-decoration: none;
+    font-weight: normal;
+    color: $projectBlue;
+    border-bottom: 0.1rem solid $projectBlue;
+    transition: color 300ms ease, border 300ms ease;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+    }
+
+    &:hover,
+    &:focus {
+      color: $projectBlue;
+      border-bottom: 0.2rem solid $projectBlue;
+
+      &.cta {
+        border-bottom: 0;
+      }
+    }
+
+    &:active {
+      color: $projectBlue;
+      border-bottom: 0.2rem solid $projectBlue;
+    }
+  }
+
+  h2 {
+    @include line-height(68, 60);
+    font-size: 6rem;
+    margin: 4rem 0 1.4rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    // h4 sizing
+    .sublayout &,
+    .sublayout-1 &,
+    .sublayout-2 &,
+    .sublayout-3 & {
+      @include line-height(44, 36);
+      //color: red;
+      font-size: 3.6rem;
+      margin: 0 0 1rem;
+    }
+  }
+
+  h3 {
+    @include line-height(60, 48);
+    font-size: 4.8rem;
+    margin: 2rem 0 1rem;
+
+    // h5 sizing
+    .sublayout-1 &,
+    .sublayout-2 &,
+    .sublayout-3 & {
+      @include line-height(36, 28);
+      //color: green;
+      font-size: 2.8rem;
+      margin: 0 0 1rem;
+    }
+  }
+
+  h4 {
+    @include line-height(44, 36);
+    font-size: 3.6rem;
+    margin: 2rem 0 1rem;
+  }
+
+  h5 {
+    @include line-height(36, 28);
+    font-size: 2.8rem;
+    margin: 2rem 0 1rem;
+  }
+
+  &.drop-caps {
+    p {
+      &:first-child {
+        &::first-letter {
+          @include line-height(58, 58);
+          font-size: 4.8rem;
+          float: left;
+          padding-right: 0.8rem;
+        }
+      }
+    }
+  }
+
+  ul {
+    list-style-type: disc;
+    margin-left: 1.8rem;
+    line-height: 2.2rem;
+
+    li {
+      list-style-type: none;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 1.2rem;
+        height: 1.2rem;
+        border: 2px solid $projectRed;
+        border-radius: 50%;
+        left: -1.4rem;
+        top: 0.5rem;
+      }
+    }
+
+    ul {
+      li {
+        &::before {
+          width: 0.8rem;
+          height: 0.8rem;
+          border: 0.1rem solid $projectRed;
+        }
+      }
+    }
+  }
+
+  ol {
+    margin-left: 2rem;
+    line-height: 2.2rem;
+  }
+
+  ul,
+  ol {
+    margin-bottom: 2.5rem;
+
+    li {
+      padding-left: 1rem;
+    }
+
+    ul,
+    ol {
+      padding-top: 0.9rem;
+      margin-left: 4rem;
+
+      li {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .rich-text-img {
+    margin: 0.8rem 3.4rem 3rem 0;
+    float: left;
+    width: 100%;
+  }
+
+  .table-default {
+    table {
+      padding: 0;
+      margin: 1rem 0 3rem;
+
+      caption {
+        padding: 0;
+        padding-bottom: 1rem;
+      }
+
+      th,
+      td {
+        padding: 1.8rem 1.4rem 1.4rem;
+        font-size: 1.2rem;
+      }
+
+      th {
+        background-color: orange;
+        border-bottom: 0.1rem solid $borderColour;
+      }
+
+      tr,
+      tr {
+        &:nth-of-type(odd) {
+          background-color: #fff;
+
+          td {
+            border-right: 0.1rem solid $borderColour;
+            border-bottom: 0.1rem solid $borderColour;
+          }
+        }
+      }
+    }
+  }
+}
+
+// RICH TEXT WYSIWYG 'Free text' - end
+// COMPACT WEB
+@media #{$compact-web} {
+}
+
+// TABLET PORTRAIT
+@media #{$tablet-portrait} {
+}
+
+// MOBILE
+@media #{$mobile} {
+  .rich-text,
+  .text-placeholder {
+    .white-grey-split & {
+      margin-top: 2.6rem;
+      margin-bottom: 2.6rem;
+    }
+
+    blockquote {
+      margin-left: 0;
+      font-size: 2.8rem;
+
+      + sub {
+        margin-left: 0;
+
+        + sub {
+          margin-left: 0;
+        }
+      }
+    }
+
+    hr {
+      margin-top: 2.2rem;
+      margin-bottom: 2.4rem;
+    }
+
+    .rich-text-img {
+      margin: 0.8rem 0 2rem;
+      float: none;
+    }
+  }
+}
+
+// MOBILE LANDSCAPE
+@media #{$mobile-landscape} {
+  .rich-text,
+  .text-placeholder {
+    .table-default {
+      position: relative;
+
+      table {
+        border: 0;
+        margin-top: 3rem;
+
+        caption {
+          border-right: 0;
+          position: absolute;
+          top: 0;
+        }
+
+        thead {
+          tr {
+            border-top: 0.1rem solid $borderColour;
+            border-left: 0.1rem solid $borderColour;
+
+            th {
+              :last-child {
+                border-bottom: 0.1rem solid $borderColour;
+              }
+            }
+          }
+        }
+
+        tbody {
+          tr {
+            border-top: 0.1rem solid $borderColour;
+          }
+        }
+      }
+    }
+  }
+}
+
+// MOBILE PORTRAIT
+@media #{$mobile-portrait} {
+}

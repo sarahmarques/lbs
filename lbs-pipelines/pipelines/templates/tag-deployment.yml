@@ -1,0 +1,26 @@
+parameters:
+- name: Version
+  type: string
+
+jobs:
+- job: TagDeployment
+  displayName: Tag Deployment
+  steps:
+  - checkout: self
+    persistCredentials: true
+  - script: |
+      set -e
+
+      echo "git config --global user.email auto@lbs.edu"
+      git config --global user.email "auto@lbs.edu"
+        
+      echo "git config --global user.name Automated Commiter"
+      git config --global user.name "Automated Commiter"
+      
+      versionName="v${{ parameters.Version }}"
+
+      echo "git tag -a $versionName -m Release $versionName"
+      git tag -a $versionName -m "Release $versionName"
+
+      echo "git push origin $versionName"
+      git push origin $versionName

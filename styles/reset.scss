@@ -1,0 +1,191 @@
+//
+//≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈
+//≡≡≡≡≡≡   RESET / NORMALISE 1.0                                                                          ≡≡≡≡≡≡≡≡≡≡≡≡
+//≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈
+//*/
+
+html {
+  box-sizing: border-box; // Use a better box model
+  font-size: calc(1em * 0.625);
+  overflow-y: scroll;
+  text-size-adjust: 100%; // Prevent font scaling in landscape while allowing user zoom */
+  line-height: 1.15; // Correct the line height in all browsers.
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit; // Use a better box model
+}
+
+body {
+  font-size: 100%; // ?
+  letter-spacing: 0; // ?
+  text-align: left; // ?
+}
+
+body,
+div,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+img,
+label,
+input,
+select,
+blockquote,
+fieldset,
+legend,
+form {
+  margin: 0; // Remove the margin in all browsers.
+  padding: 0;
+}
+
+main,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+video,
+picture {
+  display: block;
+}
+
+iframe {
+  border: 0 solid transparent;
+}
+
+img {
+  border: 0;
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  img {
+    border: 0;
+  }
+}
+
+// GROUPING CONTENT
+hr {
+  height: 0; //Add the correct height in Firefox.
+}
+
+// TEXT LEVEL SEMANTICS
+b,
+strong {
+  font-weight: bolder; // Add the correct font weight in Chrome, Edge, and Safari.
+}
+
+abbr {
+  &[title] {
+    text-decoration: underline dotted; // Add the correct text decoration in Chrome, Edge, and Safari.
+  }
+}
+
+small {
+  font-size: 80%; // Add the correct font size in all browsers.
+}
+
+sub,
+sup {
+  font-size: 75%; // Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+  line-height: 0; // Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+  position: relative; // Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+  vertical-align: baseline; // Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+}
+
+sub {
+  bottom: -0.1em; // Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+}
+
+sup {
+  top: -0.5em; // Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+}
+
+dl {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+dt {
+  color: black;
+  font-weight: bold;
+}
+
+dd {
+  margin-left: 0;
+}
+
+// FORMS
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; // Change the font styles in all browsers.
+  font-size: 100%; // Change the font styles in all browsers.
+  line-height: 1.15; // Change the font styles in all browsers.
+  margin: 0; // Remove the margin in Firefox and Safari.
+}
+
+button,
+select {
+  text-transform: none; // Remove the inheritance of text transform in Firefox.
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button; // Correct the inability to style clickable types in iOS and Safari.
+
+  &::-moz-focus-inner {
+    border-style: none; // Remove the inner border and padding in Firefox.
+    padding: 0; // Remove the inner border and padding in Firefox.
+  }
+
+  &:-moz-focusring {
+    outline: 1px dotted ButtonText; // Restore the focus styles unset by the previous rule.
+  }
+}
+
+fieldset {
+  padding: 0.35em 0.75em 0.625em; // Correct the padding in Firefox.
+}
+
+legend {
+  padding: 0; // Remove the padding so developers are not caught out when they zero out `fieldset` elements in all browsers.
+}
+
+progress {
+  vertical-align: baseline; // Add the correct vertical alignment in Chrome and Firefox.
+}
+
+[type="search"] {
+  &::-webkit-search-decoration {
+    -webkit-appearance: none; // Remove the inner padding in Chrome and Safari on macOS.
+  }
+}
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; // 1. Correct the inability to style clickable types in iOS and Safari.
+  font: inherit; // 2. Change font properties to `inherit` in Safari.
+}

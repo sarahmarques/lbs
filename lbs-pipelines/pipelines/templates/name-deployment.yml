@@ -1,0 +1,22 @@
+parameters:
+- name: major
+  type: string
+- name: minor
+  type: string
+- name: patch
+  type: string
+
+jobs:
+- job: NameDeployment
+  displayName: Name Deployment
+  steps:
+  - checkout: none
+  - script: |
+      buildNumber=${{ parameters.major }}.${{ parameters.minor }}.${{ parameters.patch }}
+      buildName="Build v$buildNumber" 
+      echo "Setting the name of the build to '$buildName'."
+      echo "##vso[build.updatebuildnumber]$buildName"
+      echo "##vso[task.setvariable variable=BuildNumber;isOutput=true]$buildNumber"
+    displayName: 'Set Deployment Name'
+    name: SetDeploymentName
+    

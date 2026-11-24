@@ -1,0 +1,18 @@
+// sass-lint:disable no-ids
+#bbox-root {
+  min-height: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    text-decoration: underline;
+  }
+
+  &.no-gift-aid {
+    #bboxdonation_gift_fldUKGiftAid {
+      display: none;
+    }
+  }
+}
+// sass-lint:enable no-ids

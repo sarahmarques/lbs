@@ -1,0 +1,113 @@
+parameters:
+- name: SiteId
+  type: string
+- name: NumberOfIterations
+  type: number
+  default: 10
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node'
+
+- script: |
+    sudo apt-get install jq
+    npm install netlify-cli -g
+    netlify login
+  displayName: 'Install Netlify CLI and Login'
+
+- script: |     
+    
+    get_deploy() {
+      arguments="{ \"deploy_id\": \"$deployId\" }"
+      netlify api getDeploy --data "${arguments}"
+    }
+
+    get_latest_deploy(){
+      response=$(netlify api listSiteDeploys --data '{ "site_id": "${{ parameters.SiteId }}" }')
+      latestDeploy=$(jq 'map(select(.branch == '\"$source\"')) | sort_by(.created_at) | last' <<< $response)
+    }
+
+    find_latest_deploy(){
+      continueHere=1
+      numHere=0
+      while [ $numHere -lt ${{ parameters.NumberOfIterations }} ] && [ $continueHere -eq 1 ]
+      do
+        get_latest_deploy
+        if [[ -n "$latestDeploy" ]]; then
+          ((continueHere++))
+        else
+          ((numHere++))
+          sleep 30
+        fi
+      done
+    }
+
+    triage(){
+      if [[ $deployStatus == "error" ]] || [[ -z "$deployStatus" ]] ; then
+          echo "An error has occured"
+          jq <<< $latestDeploy
+          echo "##vso[task.logissue type=error]Something went very wrong with the deployment."
+          exit 1
+      elif [[ $deployStatus == "ready" ]]; then
+          echo "The build is complete"
+          deploymentUrl=$(jq -r '.deploy_ssl_url' <<< "$latestDeploy")
+          echo "Deployment URL: $deploymentUrl"
+          echo "##vso[task.setvariable variable=DeploymentUrl;isOutput=true]$deploymentUrl"
+          exit 0
+      else
+          echo "Build is on-going"
+          jq <<< $latestDeploy
+          ((num++))
+          sleep 20
+      fi
+    }
+
+    find_deploy(){
+      num=0
+      while [ $num -lt ${{ parameters.NumberOfIterations }} ]
+      do
+        latestDeploy=$(get_deploy)
+        deployStatus=$(jq -r '.state' <<< "$latestDeploy")
+        echo "deploy status: $deployStatus"
+        triage
+      done
+    }
+
+    echo "Build reason: $(Build.Reason)"
+    echo "System.PullRequest.SourceBranch: $(System.PullRequest.SourceBranch)"
+    echo "Build.SourceBranch: $(Build.SourceBranch)"
+    var1="$(Build.Reason)"
+    var2="PullRequest"
+    if [ "$var1" == "$var2" ] ; then
+      branchName="$(System.PullRequest.SourceBranch)"
+    else
+      branchName="$(Build.SourceBranch)"
+    fi
+
+    echo "Calculating soruce branch. Currently: $branchName"
+    toRemove="refs/heads/"
+    replaceWith=""
+    source="${branchName/#$toRemove/$replaceWith}"
+    echo "Branch Name: $source"
+
+    find_latest_deploy
+
+    deployStatus=$(jq -r '.state' <<< "$latestDeploy")
+    deployId=$(jq -r '.id' <<< "$latestDeploy")
+    echo "deploy status: $deployStatus"
+    echo "deploy id: $deployId"
+
+    if [[ -z "$deployId" ]] ; then
+        echo "Deploy ID is empty"
+        echo "##vso[task.logissue type=error]Could not find a deployment in Netlify."
+        exit 1
+    fi
+
+    find_deploy
+    
+    echo "##vso[task.logissue type=error]Something went very wrong with the deployment."
+    exit 1
+  displayName: 'Watch for Deployment toC Complete'
+  name: Watch
+

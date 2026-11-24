@@ -1,0 +1,47 @@
+parameters:
+# The Azure DevOps environment that is being deployed too
+- name: devOpsEnvironment
+  type: string
+# The netlify site id that is being deployed to
+- name: siteId
+  type: string
+# The number of attempts to find and watch the deployment before timing out
+- name: numberOfIterations
+  type: number
+  default: 10
+
+
+stages:
+## BUILD SOLUTION
+- stage: BuildAndDeploy
+  displayName: 'Build and Deploy Site'
+  jobs:
+  - job: BuildAndTest
+    displayName: Build and Test
+    steps:
+    - template: build-and-test.yml
+  - deployment: WatchDeploy
+    displayName: Watch Deployment
+    environment: ${{ parameters.devOpsEnvironment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: none
+          - template: watch-deploy.yml
+            parameters:
+              SiteId: ${{ parameters.siteId }}
+              NumberOfIterations: ${{ parameters.numberOfIterations }}
+- stage: TestSite
+  displayName: 'Test Site'
+  dependsOn: 'BuildAndDeploy'
+  jobs:
+  - job: IntegrationTests
+    variables: 
+      - name: BaseUrl
+        value: $[ stageDependencies.BuildAndDeploy.WatchDeploy.outputs['WatchDeploy.Watch.DeploymentUrl'] ]
+    displayName: Run Integration Tests
+    steps:
+    - template: run-integration-tests.yml
+      parameters:
+        BaseUrl: $(BaseUrl)
